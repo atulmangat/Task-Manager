@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Task Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .column { float: left; width: 30%; padding: 10px; }
+        .column h2 { text-align: center; }
+        .task { border: 1px solid #ccc; padding: 5px; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Voice Task Manager</h1>
+    <button id="record">Start Recording</button>
+    <pre id="transcript"></pre>
+    <div id="columns">
+        <div class="column" id="pending">
+            <h2>Pending</h2>
+        </div>
+        <div class="column" id="inprogress">
+            <h2>In Progress</h2>
+        </div>
+        <div class="column" id="done">
+            <h2>Done</h2>
+        </div>
+    </div>
+    <script>
+    async function fetchTasks(){
+        let resp = await fetch('/tasks');
+        let tasks = await resp.json();
+        ['pending','inprogress','done'].forEach(s => {
+            document.getElementById(s).innerHTML = '<h2>'+ (s === 'inprogress' ? 'In Progress' : s.charAt(0).toUpperCase()+s.slice(1)) +'</h2>';
+        });
+        tasks.forEach(t => {
+            let div = document.createElement('div');
+            div.className = 'task';
+            div.textContent = t.description;
+            document.getElementById(t.status).appendChild(div);
+        });
+    }
+    fetchTasks();
+
+    let mediaRecorder;
+    const button = document.getElementById('record');
+    button.addEventListener('click', async () => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            button.textContent = 'Start Recording';
+        } else {
+            let stream = await navigator.mediaDevices.getUserMedia({audio:true});
+            mediaRecorder = new MediaRecorder(stream);
+            const chunks = [];
+            mediaRecorder.ondataavailable = e => chunks.push(e.data);
+            mediaRecorder.onstop = async () => {
+                let blob = new Blob(chunks, {type:'audio/wav'});
+                let form = new FormData();
+                form.append('file', blob, 'recording.wav');
+                let r = await fetch('/transcribe', {method:'POST', body: form});
+                let {text} = await r.json();
+                document.getElementById('transcript').textContent = text;
+                // call custom LLM API
+                let llm = await fetch('/llm', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({text})});
+                console.log(await llm.json());
+            };
+            mediaRecorder.start();
+            button.textContent = 'Stop Recording';
+        }
+    });
+    </script>
+</body>
+</html>
