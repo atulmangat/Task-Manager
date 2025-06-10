@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from .db import Base, engine, get_db
 from . import models, schemas, crud
-import whisper
 import requests
 import os
 
@@ -37,6 +36,11 @@ async def update_task(task_id: int, task: schemas.TaskUpdate, db: Session = Depe
 
 @app.post("/transcribe")
 async def transcribe_audio(file: UploadFile = File(...)):
+    try:
+        import whisper
+    except ModuleNotFoundError:
+        raise HTTPException(status_code=500, detail="whisper package not installed")
+
     model = whisper.load_model("base")
     audio = await file.read()
     with open("temp.wav", "wb") as f:
