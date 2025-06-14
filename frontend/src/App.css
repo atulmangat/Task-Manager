@@ -1,0 +1,359 @@
+/* Global Styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #e9f5ff; /* Light blue background */
+  margin: 0;
+  padding: 0; /* Remove default body padding if App container handles it */
+  color: #c3d2e6; /* Darker blue text color */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh; /* Ensure app container takes at least full viewport height */
+  padding: 2rem; /* Consistent padding */
+}
+
+/* Header Styles */
+/* Logo Style - will be used for text logo */
+.logo-text {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #004085; /* Dark blue for logo */
+  /* Add more styling like font-family if desired */
+}
+
+.logo-text span {
+  color: #007bff; /* Primary blue for exclamation marks */
+}
+
+.app-header h1 {
+  font-size: 2rem; /* Larger title */
+  font-weight: 600;
+  color: #004085; /* Dark blue for heading - can be replaced by logo style */
+}
+
+.header-form-label {
+  color: #172b4d; /* Match task description text color */
+  font-weight: normal; /* Ensure normal weight, not bold from default Form.Label */
+  font-size: 0.9rem; /* Match task description font size */
+  vertical-align: middle; /* Helps align with the select dropdown */
+}
+
+/* Model Selection & Status & Transcript Area */
+.controls-area {
+  background-color: #ffffff; /* Keep white for contrast */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  margin-bottom: 20px;
+}
+
+#model-selection-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spacing between elements */
+  margin-bottom: 10px;
+}
+
+#modelSelect {
+  max-width: 220px;
+}
+
+#modelInfo {
+  font-size: 0.85em;
+  color: #5e6c84;
+}
+
+#current-model-status {
+  font-size: 0.9em;
+  color: #42526e;
+  padding: 8px;
+  background-color: #f4f5f7;
+  border-radius: 4px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+#transcript {
+  font-size: 0.95em;
+  color: #172b4d;
+  padding: 12px 16px;
+  border: 1px solid #c7d5e0;
+  border-left: 4px solid #3685fa; /* accent bar */
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f8ff 100%);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  min-height: 70px;
+  word-break: break-word;
+  transition: background-color 0.3s ease;
+}
+
+#record.is-recording + #transcript,
+#transcript.listening {
+  background: linear-gradient(135deg, #e9f2ff 0%, #ffffff 100%);
+}
+
+/* Kanban Board Columns */
+#columns {
+  display: flex; /* Ensure it behaves as a flex container for columns */
+  flex-grow: 1; /* Allows this row to take up available vertical space */
+  gap: 1rem; /* Spacing between columns */
+  min-height: 0; /* Important for flex children in a flex container that itself grows */
+  padding: 16px 8px; /* Add some padding to the board */
+  border-radius: 8px; /* Rounded corners for the overall board */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inset shadow */
+}
+
+.column {
+  display: flex; /* Make column a flex container for its header and content */
+  flex-direction: column; /* Stack header and content vertically */
+  background-color: #f4f5f7; /* More neutral column background like Jira */
+  padding: 16px 12px; /* Increased padding */
+  border-radius: 6px; /* Softer corners */
+  flex: 1;
+  min-width: 280px; /* Minimum width for columns */
+  flex: 1 1 0;
+  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.13); /* More subtle shadow */
+  border: 1px solid rgba(223, 225, 230, 0.9); /* Very subtle border */
+  max-height: calc(100vh - 230px); /* Limit column height for scrolling */
+  position: relative; /* For potential absolute elements inside */
+}
+
+.column h2 {
+  font-size: 14px; /* Specific pixel size for header */
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #172B4D; /* Darker, more professional color */
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding: 0 0 12px 0; /* Padding for header text */
+  border-bottom: 2px solid #DFE1E6;
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Add column count badges */
+.column h2::after {
+  content: attr(data-count);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(9, 30, 66, 0.13);
+  color: #172B4D;
+  font-size: 12px;
+  font-weight: 600;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+.column-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 4px;
+  margin: 0 -4px; /* Create space for scrollbar without shifting content */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(9, 30, 66, 0.2) transparent;
+  max-height: calc(100vh - 300px); /* Set a max height for scrollable area */
+}
+
+.column-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.column-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.column-content::-webkit-scrollbar-thumb {
+  background-color: rgba(9, 30, 66, 0.2);
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(9, 30, 66, 0.3);
+}
+
+.column-empty-message {
+  flex-grow: 1; /* Take up available space in .column-content */
+  display: flex;
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  font-size: 0.9rem; /* Slightly larger than default small */
+  font-style: normal; /* Override italic from bootstrap if needed */
+  color: #6b778c; /* Match text-muted-light or choose a suitable color */
+  text-align: center;
+  padding: 20px; /* Some padding around the message */
+}
+
+/* Task Card Styles */
+.task {
+  background: linear-gradient(to bottom, #ffffff, #fafbfc); /* Subtle gradient */
+  border: 1px solid #dfe1e6; /* Jira-like border */
+  border-left-width: 3px; /* Thicker left border for status accent */
+  border-radius: 3px; /* Sharper corners */
+  box-shadow: 0 1px 1px rgba(9,30,66,0.25), 0 0 1px rgba(9,30,66,0.31); /* Jira-like shadow */
+  padding: 12px 12px 12px 10px; /* Adjusted padding (top, right, bottom, left) */
+  margin-bottom: 10px; /* Adjusted margin */
+  display: flex;
+  flex-direction: column;
+  cursor: grab; /* Indicate draggable */
+  transition: all 0.2s ease-in-out;
+  position: relative; /* For potential absolute positioning of elements */
+}
+
+.task:hover {
+  box-shadow: 0 3px 5px rgba(9,30,66,0.28), 0 0 1px rgba(9,30,66,0.31); /* More pronounced shadow on hover */
+  background: linear-gradient(to bottom, #f4f5f7, #fafbfc); /* Enhanced gradient on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.task-header {
+  margin-bottom: 6px;
+}
+
+.task-id-display {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #6b778c;
+  background-color: #f4f5f7;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block; /* So background fits content */
+}
+
+.task-description-text {
+  font-size: 0.9rem;
+  color: #172b4d;
+  margin: 4px 0 10px 0; /* Better spacing */
+  word-break: break-word;
+  line-height: 1.5; /* Slightly increased line height */
+  flex-grow: 1; /* Allow description to take available space */
+  font-style: italic; /* Make task font italic */
+  letter-spacing: 0.1px; /* Subtle letter spacing for better readability */
+}
+
+.task-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: auto; /* Push actions to the bottom */
+  opacity: 0.7; /* Slightly visible by default */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Task status-based left border colors */
+.task[data-status="pending"] {
+  border-left-color: #0052cc; /* Blue for pending */
+}
+
+.task[data-status="inprogress"] {
+  border-left-color: #ff9900; /* Orange for in progress */
+}
+
+.task[data-status="done"] {
+  border-left-color: #36b37e; /* Green for done */
+}
+
+.task:hover .task-actions {
+  opacity: 1;
+}
+
+.task-actions .btn {
+  padding: 0;
+  margin-left: 5px;
+  background: transparent;
+  border: none;
+}
+
+.task.dragging {
+  opacity: 0.7;
+  transform: scale(0.98);
+  box-shadow: 0 4px 8px rgba(9,30,66,0.3);
+  border: 2px dashed rgba(9,30,66,0.4);
+}
+
+.column-content.drag-over {
+  background-color: rgba(223,240,255,0.8); 
+  border: 2px dashed rgba(0,82,204,0.4);
+  border-radius: 3px;
+}
+
+.task-actions .btn:hover {
+  color: #091e42;
+  background-color: #ebecf0;
+}
+
+/* SortableJS Drag Styles */
+.sortable-ghost {
+  opacity: 0.5;
+  background: #ddeeff;
+  border: 1px dashed #007bff;
+}
+
+.sortable-chosen,
+.sortable-drag {
+  opacity: 0.9 !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  cursor: grabbing;
+  transform: rotate(2deg); /* Slight tilt when dragging */
+}
+
+/* Mic Button Container */
+.mic-button-container {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050; /* Ensure it's above other elements */
+}
+
+#record {
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 64px; /* Slightly larger */
+  height: 64px;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+#record:hover {
+  background-color: #005ec2; /* Slightly darker blue on hover */
+  transform: scale(1.05);
+}
+
+#record.is-recording {
+  background-color: #dc3545; /* Red when recording */
+  animation: pulse-scale 1.2s ease-in-out infinite;
+}
+
+#record.is-recording:hover {
+  background-color: #b02a37; /* Darker red on hover */
+}
+
+@keyframes pulse-scale {
+  0% { transform: scale(1.0); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1.0); }
+}
+
+/* Utility classes */
+.text-muted-light {
+  color: #6b778c !important;
+}

@@ -11,6 +11,7 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+brew install ffmpeg
 ```
 
 Run the development server:

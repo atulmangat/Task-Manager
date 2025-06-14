@@ -5,3 +5,7 @@ pydantic
 python-multipart
 openai-whisper
 requests
+websockets
+loguru
+openai
+python-dotenv
