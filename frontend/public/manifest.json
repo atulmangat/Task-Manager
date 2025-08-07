@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Task Manager",
+  "version": "1.0",
+  "description": "A voice-driven task manager.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "host_permissions": [
+    "http://localhost:8000/"
+  ],
+  "icons": {
+    "16": "vite.svg",
+    "48": "vite.svg",
+    "128": "vite.svg"
+  }
+}

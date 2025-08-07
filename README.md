@@ -53,6 +53,31 @@ A simple voice-driven task manager with:
 
 ---
 
+## Chrome Extension Setup
+
+This project can be run as a Chrome extension that overrides the New Tab page.
+
+1.  **Build the Frontend:**
+    Navigate to the `frontend` directory and build the static files.
+    ```sh
+    cd frontend
+    npm run build
+    ```
+    This will create a `dist` directory inside `frontend` containing the necessary HTML, CSS, and JavaScript files.
+
+2.  **Load the Extension in Chrome:**
+    - Open Google Chrome and navigate to `chrome://extensions`.
+    - Enable "Developer mode" using the toggle in the top-right corner.
+    - Click the "Load unpacked" button.
+    - Select the `frontend/dist` directory.
+
+3.  **Run the Backend:**
+    The extension requires the FastAPI backend to be running. Follow the "Backend Setup" instructions to start the server.
+
+Once loaded, open a new tab in Chrome to see the Task Manager application.
+
+---
+
 ## Building a Standalone Binary (macOS)
 
 You can bundle the FastAPI backend as a standalone binary using PyInstaller:
